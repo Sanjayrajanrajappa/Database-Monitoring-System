@@ -1,3 +1,4 @@
+import 'package:dbms/Screens/db_show.dart';
 import 'package:dbms/apis/excel_read.dart';
 import 'package:dbms/utils/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
   Future<void> loadServerNames() async {
     var reader = ExcelRead();
-    var names = await reader.readExcel();
+    var names = await reader.readExcelColumnsWise();
     setState((){
       serverNames = names;
     });
@@ -45,9 +46,15 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              for(var i in serverNames)
-                AppTheme.btn(i),
-                Padding(padding: EdgeInsets.all(20)),
+              for (var i in serverNames)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: AppTheme.btnWFUNC(
+                    context,
+                    i,
+                    DBShow(serverName: i.toString()),
+                  ),
+                ),
             ],
           )
         ],

@@ -1,16 +1,22 @@
+// import 'package:dbms/apis/mysql_connect.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme{
+  
   static const Color green = Color.fromARGB(255, 16, 224, 161);
   static const Color black = Color.fromARGB(98, 0, 0, 0);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static ElevatedButton btnWFUNC(BuildContext context,dynamic data, Widget nextPage){
     return ElevatedButton(
-    onPressed: () {
+    onPressed: () async {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => nextPage)
       );
+      // if(data.toString() == "MYSQL"){
+      //   MysqlConnect c = MysqlConnect();
+      //   await c.conct();
+      // }
     },
     style: ButtonStyle(
       foregroundColor: WidgetStateProperty.all(white),

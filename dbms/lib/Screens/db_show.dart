@@ -1,6 +1,5 @@
 import 'package:dbms/apis/excel_read.dart';
 import 'package:dbms/utils/app_styles.dart';
-import 'package:excel/excel.dart';
 import 'package:flutter/material.dart';
 
 class DBShow extends StatefulWidget {

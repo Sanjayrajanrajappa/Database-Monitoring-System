@@ -42,7 +42,7 @@ class ExcelRead {
       final sheet = excel.tables[table];
       if (sheet == null) continue;
       final List<Data?> headerRow = sheet.rows[0];
-      final List<String> columns = ["TECHNOLOGY","SERVERNAME", "DATABASENAME","HOSTNAME","PORTNO","USERNAME"];
+      final List<String> columns = ["TECHNOLOGY","SERVERNAME", "DATABASENAME","HOSTNAME","PORTNO","USERNAME","CLR"];
       final Map<String, int> columnIndices = {};
       for (var colName in columns) {
         final index = headerRow.indexWhere((cell) => cell?.value.toString().trim().toUpperCase() == colName);
@@ -65,7 +65,7 @@ class ExcelRead {
         rowMap["HOSTNAME"] = row[columnIndices["HOSTNAME"]!]?.value;
         rowMap["PORTNO"] = row[columnIndices["PORTNO"]!]?.value;
         rowMap["USERNAME"] = row[columnIndices["USERNAME"]!]?.value;
-
+        rowMap["CLR"] = row[columnIndices["CLR"]!]?.value;
         dbdata.add(rowMap);
       }
     }

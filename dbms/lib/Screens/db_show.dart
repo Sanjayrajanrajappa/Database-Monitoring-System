@@ -1,6 +1,10 @@
+import 'package:dbms/Screens/extensive.dart';
 import 'package:dbms/apis/excel_read.dart';
 import 'package:dbms/utils/app_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+Logger log = Logger();
 
 class DBShow extends StatefulWidget {
   final String serverName;
@@ -13,7 +17,6 @@ class DBShow extends StatefulWidget {
 class _DBShowState extends State<DBShow> {
   List<Map<String, dynamic>> dbdata = [];
   bool isLoading = true;
-
   @override
   void initState() {
     super.initState();
@@ -28,7 +31,40 @@ class _DBShowState extends State<DBShow> {
       isLoading = false;
     });
   }
-
+  static void blast(){
+    log.w("HELLO MF");
+  }
+  DataCell da(dynamic cr, BuildContext context){
+      if(cr == "r"){
+        return DataCell(
+          SizedBox.expand(
+            child: Container(
+              color: Color.fromARGB(253, 255, 15, 15),
+            ),
+          ),
+          onTap: blast,
+        );
+      }
+      else if(cr == "g"){
+        return DataCell(
+          SizedBox.expand(
+            child: Container(
+              color: Color.fromARGB(252, 0, 255, 17),
+            ),
+          ),
+          onTap: blast,
+        );
+      }
+      return DataCell(
+          SizedBox.expand(
+            child: Container(
+              color: Color.fromARGB(251, 0, 174, 255),
+            ),
+          ),
+          onTap: blast,
+      );
+      
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,32 +106,43 @@ class _DBShowState extends State<DBShow> {
                       columnSpacing: 20,
                       headingRowColor: WidgetStateProperty.all(const Color.fromARGB(101, 0, 0, 0)),
                       dataRowColor: WidgetStateProperty.all(const Color.fromARGB(68, 12, 117, 85)),
-                      columns: dbdata[0].keys.map((key) {
-                        return DataColumn(
-                          label: Text(
-                            key,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 0, 0, 0), fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                          ),
-                        );
-                      }).toList(),
+                      columns: dbdata[0].keys
+                          .where((key) => key != "HOSTNAME" && key != "PORTNO" && key != "USERNAME")
+                          .map((key) {
+                            return DataColumn(
+                              label: Text(
+                                key,
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            );
+                          }).toList(),
                       rows: dbdata.map((row) {
                         return DataRow(
-                          cells: row.values.map((value) {
-                            return DataCell(
-                              Center(
-                                child: 
-                                Text(
-                                value?.toString() ?? '',
-                                style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-                              ),
-                            )
-                            ); 
-                          }).toList(),
+                          cells: row.entries
+                              .where((entry) =>
+                                  entry.key != "HOSTNAME" && entry.key != "PORTNO" && entry.key != "USERNAME")
+                              .map((entry) {
+                                String dat = entry.value.toString();
+                                if (dat == "r" || dat == "g" || dat == "b") {
+                                  return da(dat, context); // da() should return a DataCell
+                                }
+                                return DataCell(
+                                  Center(
+                                    child: Text(
+                                      dat,
+                                      style: const TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
                         );
                       }).toList(),
                     ),
+
                   ),
                 ),
               ),

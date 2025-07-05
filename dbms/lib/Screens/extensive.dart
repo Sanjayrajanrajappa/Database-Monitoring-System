@@ -12,7 +12,16 @@ class _ExtensiveState extends State<Extensive> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.green,
+      backgroundColor: AppTheme.gray,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 10),
+          const Align(alignment: Alignment.topLeft,child: BackButton(
+            color: AppTheme.purple,
+          )),
+        ],
+      ),
     );
   }
 }
